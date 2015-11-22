@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title></title>
+        
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <form  method="post">
+			<font size= >SELECT CITY:</font>
+            <select  id="city" onchange="giveSelection(this.value)">
+                <option value="NOIDA" > NOIDA </option>
+                <option value="DELHI"> DELHI</option>
+                <option value="GURGAON"> GURGAON</option>
+            </select>
+			<h3> SELECT AREA:</h3>
+            <select  id="area">
+                <option value="SECTOR1/N" data-option="NOIDA">SECTOR 1</option>
+                <option value="SECTOR55/N" data-option="NOIDA">SECTOR 55</option> 
+                <option value="SECTOR62/N" data-option="NOIDA">SECTOR 62</option>
+                <option value="CP" data-option="DELHI">CONNAUGHT PLACE  </option>
+                <option value="ROHINI" data-option="DELHI">ROHINI</option>
+                <option value="SAAKET" data-option="DELHI">SAAKET</option>
+                <option value="SECTOR27/G" data-option="GURGAON">SECTOR 27</option>
+                <option value="SECTOR37/G" data-option="GURGAON">SECTOR 37</option> 
+                <option value="SECTOR26/G/" data-option="GURGAON">SECTOR 26</option>
+            </select>
+			<h3>WHICH OFFICE YOU WANNA SELECT</h3>
+            <select id="SELECTOFFICE">
+                <option value="revenueoffice" >REVENUE DEPARTMENT</option>
+                <option value="electricdepartment" >ELECTRICAL DEPARTMENT</option>
+                <option value="pwdoffice" >PWD DEPARTMENT</option>
+                <option value="pancard" >PAN CARD</option>
+                <option value="postoffice" >POST OFFICE</option>
+             </select>
+			
+			
+			
+			 <input type="submit" value="submit" onclick="addr()">
+			 <p id="demo"></p>
+
+        </form>
+        <p id='print'></p>
+
+
+
+
+        <script type="text/javascript">
+            var city = document.querySelector('#city');
+            var area = document.querySelector('#area');
+            var options2 = area.querySelectorAll('option');
+
+            function giveSelection(selValue)
+            {
+                    area.innerHTML = '';
+                    for(var i = 0; i < options2.length; i++) 
+                    {
+                        if(options2[i].dataset.option === selValue) 
+                        {
+                            area.appendChild(options2[i]);
+                        }
+                    }
+            }
+  
+
+
+            giveSelection(city.value);
+        </script>
+		<script type="text/javascript">
+			function addr()
+			{
+				var city=document.querySelector('#city');
+				var area=document.querySelector('#area');
+				var office=document.querySelector('#SELECTOFFICE');
+				var next=new Array();
+				var last=new Array();
+				var fina =new Array();
+				var lon;
+				var lat;
+				var obj = {"PAN CARD@S H A & ASSOCIATES, UGF 6 OCEAN COMPLEX , P6 IN FRONT OF GIP MALL SECTOR 18 , NOIDA UTTAR PRADESH 201301":"28.5693275@77.3255774","PAN CARD@502-503, 5TH FLOOR, ARUNACHAL BUILDING 19 BARAKHAMBA ROAD CONNAUGHT PLACE DELHI 110001":"28.629072@77.224831","PAN CARD@Karvy Data Management Services Ltd SHOP NO.18, NEAR HUDA OFFICE GROUND FLOOR, OPP.AKD TOWER SECTOR 14 GURGAON HARYANA 122001":"28.4771416@77.0457351","PAN CARD@Vertex Customer Solutions India Private Limited A-1/46, SUSHANT LOK-II, SECTOR-55, GOLF COURSE ROAD NEAR AIT CHOWK AND PATHWAYS EARLY YEARS SCHOOL GURGAON HARYANA 122011":"28.4274252@77.1117827",
+				"POST OFFICE@a 31, Sector 62, Noida, Uttar Pradesh 201309":"28.6286399@77.3557007","POST OFFICE@Distt. Court Complex, Saket, Saket, Delhi - 110017":"28.5229531@77.2144906","POST OFFICE@India Post, Shop No. A-6, Opp. Rajiv Chowk Metro Staion Gate No. 8, Rajiv Chowk, Block A, Connaught Place, New Delhi, Delhi 110001":"28.6260367@77.0412804","POST OFFICE@Main Market ,Gurgaon Sector 14, Gurgaon - 122001":"28.473437@77.047764",
+				"POLICE STATION@Sector 18, Noida, 201301":"28.5707047@77.3237219","POLICE STATION@Sector-62, Noida,201301":"28.6316953@77.355083","POLICE STATION@Baba Kharak Singh Marg, Near Hanuman Mandir, Connaught Place, New Delhi, Delhi 110001":"28.6298957@77.2141925","POLICE STATION@NEAR ABASH SOCIETY, HUDA MARKET, SEC - 56, Gurgaon, Haryana 122011":"28.425024@77.1033812","POLICE STATION@Near Galaxy Hotel, Sec 15, Civil Lines, Gurgaon, Haryana 122001":"28.47519@77.044321"};
+				for(var propt in obj)
+				{
+					if(propt.indexOf(city) > -1)
+					{ next[propt]=obj[propt];
+					}
+				
+					alert(propt + ': ' + obj[propt]);
+				}
+				for(var prop in next)
+				{	if(prop.indexOf(area) > -1)
+					{
+						last[prop]=next[prop];
+					}
+					alert(prop + ': ' + next[prop]);
+				}
+				for(var pro in last)
+				{	if(pro.indexOf(office) >-1)
+					{
+						fina[pro]=last[pro];
+					}
+					alert(pro + ': ' + next[pro]);
+				}
+				var i=0;
+				for (pro in fina)
+				{
+					var res=pro.split("@");
+					var adress=res[1] ;
+					document.getElementById("print").innerHTML = adress;
+					var loc=fina[pro].split("@");
+					lat[i]=loc[0];
+					lon[i]=loc[1];
+					i=i+1;
+				}
+					var n=i;
+					document.getElementById("demo").innerHTML = +res;
+				}
+              
+			
+
+				
+		</script>
+		<script src="http://maps.googleapis.com/maps/api/js"></script>
+		<script>
+			i=0;
+			while(i<n)
+			{
+			var myCenter = new google.maps.LatLng(lat, lon);
+
+			function initialize() {
+			var mapProp = {
+  			center:myCenter,
+ 		 	zoom:12,
+ 		 	scrollwheel:false,
+  			draggable:false,
+  			mapTypeId:google.maps.MapTypeId.ROADMAP
+ 		 	}
+
+			var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+
+			var marker = new google.maps.Marker({
+ 		 	position:myCenter,
+  			});
+
+			marker.setMap(map);
+			}
+			}
+			google.maps.event.addDomListener(window, 'load', initialize);
+		</script>
+   	</body>
+</html>
